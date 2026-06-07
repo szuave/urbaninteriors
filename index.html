@@ -348,14 +348,24 @@
         </div>
     </footer>
 
-    <script src="lang.js"></script>
+    <script defer src="lang.js"></script>
     <script>
-        // Preloader
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('preloader').classList.add('hidden');
-            }, 800);
-        });
+        // Preloader: verbergen zodra de hero zichtbaar is (niet wachten op alle resources)
+        (function () {
+            var hidePreloader = function () {
+                var p = document.getElementById('preloader');
+                if (p) p.classList.add('hidden');
+            };
+            var heroImg = document.querySelector('.hero-bg img');
+            if (heroImg && heroImg.complete) {
+                hidePreloader();
+            } else if (heroImg) {
+                heroImg.addEventListener('load', hidePreloader);
+                heroImg.addEventListener('error', hidePreloader);
+            }
+            document.addEventListener('DOMContentLoaded', hidePreloader);
+            setTimeout(hidePreloader, 1200); // veiligheidsnet
+        })();
 
         // Header scroll effect
         const header = document.getElementById('header');

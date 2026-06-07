@@ -1,0 +1,11 @@
+# Cache-instellingen voor Cloudflare (statische assets lang cachen)
+
+# Foto's veranderen zelden -> 1 jaar cachen
+/Photos/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# CSS en JS -> 1 dag (kort genoeg om updates snel door te voeren)
+/styles.css
+  Cache-Control: public, max-age=86400
+/lang.js
+  Cache-Control: public, max-age=86400

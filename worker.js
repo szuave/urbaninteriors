@@ -15,7 +15,7 @@ export default {
   },
 };
 
-const RECIPIENT = "karel@urbaninteriors.be";
+const RECIPIENT = "contact@urbaninteriors.be";
 const FROM = "Urban Interiors <onboarding@resend.dev>";
 
 async function handleContact(request, env) {

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-572DHWHZ');</script>
+    <!-- End Google Tag Manager -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Neem contact op met Urban Interiors voor interieurinrichting en renovatie.">
+    <title>Contact | Urban Interiors</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-572DHWHZ"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo">Urban Interiors</a>
+                <nav class="nav">
+                    <a href="diensten.html" class="nav-link" data-i18n="nav.diensten">Diensten</a>
+                    <a href="werkwijze.html" class="nav-link" data-i18n="nav.werkwijze">Werkwijze</a>
+                    <a href="realisaties.html" class="nav-link" data-i18n="nav.realisaties">Realisaties</a>
+                    <a href="over.html" class="nav-link" data-i18n="nav.over">Over</a>
+                </nav>
+                <a href="contact.html" class="btn btn-secondary header-cta" data-i18n="nav.contact">Contact</a>
+                <div class="lang-switcher">
+                    <button class="lang-option" data-lang="nl">NL</button>
+                    <button class="lang-option" data-lang="fr">FR</button>
+                    <button class="lang-option" data-lang="en">EN</button>
+                </div>
+                <button class="menu-btn" id="menu-btn" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav" id="mobile-nav">
+        <div class="mobile-nav-links">
+            <a href="diensten.html" class="mobile-nav-link" data-i18n="nav.diensten">Diensten</a>
+            <a href="werkwijze.html" class="mobile-nav-link" data-i18n="nav.werkwijze">Werkwijze</a>
+            <a href="realisaties.html" class="mobile-nav-link" data-i18n="nav.realisaties">Realisaties</a>
+            <a href="over.html" class="mobile-nav-link" data-i18n="nav.over">Over</a>
+        </div>
+        <a href="contact.html" class="btn btn-primary mobile-nav-cta" data-i18n="nav.contact">Contact</a>
+        <div class="mobile-lang-switcher">
+            <button class="lang-option" data-lang="nl">NL</button>
+            <button class="lang-option" data-lang="fr">FR</button>
+            <button class="lang-option" data-lang="en">EN</button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content">
+                <span class="text-mono mb-md" style="display:block;" data-i18n="contact.header.label">Laten we praten</span>
+                <h1 data-i18n="contact.header.title">Contact</h1>
+                <p class="text-large" data-i18n="contact.header.subtitle">Vertel ons over jouw project. We luisteren en denken vrijblijvend mee.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form & Info -->
+    <section class="section">
+        <div class="container">
+            <div class="form-grid">
+                <div>
+                    <h2 class="mb-lg" data-i18n="contact.form.title">Stuur een bericht</h2>
+                    <form name="contact" method="POST" action="/bedankt">
+                        <div class="form-group">
+                            <label class="form-label" for="name" data-i18n="contact.form.name">Naam</label>
+                            <input type="text" id="name" name="name" class="form-input" placeholder="Je naam" data-i18n-ph="contact.form.name_ph" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="email" data-i18n="contact.form.email">E-mailadres</label>
+                            <input type="email" id="email" name="email" class="form-input" placeholder="naam@voorbeeld.be" data-i18n-ph="contact.form.email_ph" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="phone" data-i18n="contact.form.phone">Telefoon</label>
+                            <input type="tel" id="phone" name="phone" class="form-input" placeholder="+32 ..." data-i18n-ph="contact.form.phone_ph">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="message" data-i18n="contact.form.message">Bericht</label>
+                            <textarea id="message" name="message" class="form-textarea" placeholder="Vertel kort over je project..." data-i18n-ph="contact.form.message_ph" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" data-i18n="contact.form.submit">Verstuur bericht</button>
+                    </form>
+                </div>
+
+                <div>
+                    <h2 class="mb-lg" data-i18n="contact.info.title">Contactgegevens</h2>
+                    <div class="contact-info-list">
+                        <div class="mb-lg">
+                            <p class="contact-item-label" data-i18n="contact.info.phone_label">Telefoon</p>
+                            <p class="contact-item-value"><a href="tel:+32469484144" class="text-white">+32 469 484 144</a></p>
+                        </div>
+                        <div class="mb-lg">
+                            <p class="contact-item-label" data-i18n="contact.info.email_label">E-mail</p>
+                            <p class="contact-item-value"><a href="mailto:contact@urbaninteriors.be" class="text-white">contact@urbaninteriors.be</a></p>
+                        </div>
+                        <div class="mb-lg">
+                            <p class="contact-item-label" data-i18n="contact.info.location_label">Locatie</p>
+                            <p class="contact-item-value" data-i18n="contact.info.location_value">Europa & Benelux</p>
+                        </div>
+                        <div>
+                            <p class="contact-item-label" data-i18n="contact.info.hours_label">Openingsuren</p>
+                            <p class="contact-item-value" data-i18n="contact.info.hours_value">Ma – Vr: 9:00 – 16:00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <span class="footer-logo">Urban Interiors</span>
+                    <p class="footer-tagline" data-i18n="footer.tagline">Stijlvolle interieurs op maat, tot in detail. Van ontwerp tot uitvoering met aandacht voor kwaliteit en afwerking.</p>
+                </div>
+                <div class="footer-column">
+                    <h4 data-i18n="footer.nav_title">Navigatie</h4>
+                    <nav class="footer-nav">
+                        <a href="diensten.html" class="footer-link" data-i18n="footer.diensten">Diensten</a>
+                        <a href="werkwijze.html" class="footer-link" data-i18n="footer.werkwijze">Werkwijze</a>
+                        <a href="realisaties.html" class="footer-link" data-i18n="footer.realisaties">Realisaties</a>
+                        <a href="over.html" class="footer-link" data-i18n="footer.over">Over ons</a>
+                        <a href="contact.html" class="footer-link" data-i18n="footer.contact">Contact</a>
+                    </nav>
+                </div>
+                <div class="footer-column">
+                    <h4 data-i18n="footer.contact_title">Contact</h4>
+                    <div class="footer-contact-item">
+                        <p class="footer-contact-label" data-i18n="footer.phone_label">Telefoon</p>
+                        <p class="footer-contact-value"><a href="tel:+32469484144">+32 469 484 144</a></p>
+                    </div>
+                    <div class="footer-contact-item">
+                        <p class="footer-contact-label" data-i18n="footer.email_label">E-mail</p>
+                        <p class="footer-contact-value"><a href="mailto:contact@urbaninteriors.be">contact@urbaninteriors.be</a></p>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4 data-i18n="footer.hours_title">Openingsuren</h4>
+                    <div class="footer-contact-item">
+                        <p class="footer-contact-label" data-i18n="footer.weekdays">Maandag - Vrijdag</p>
+                        <p class="footer-contact-value" data-i18n="footer.weekdays_value">9:00 – 16:00</p>
+                    </div>
+                    <div class="footer-contact-item">
+                        <p class="footer-contact-label" data-i18n="footer.weekend">Weekend</p>
+                        <p class="footer-contact-value" data-i18n="footer.weekend_value">Op afspraak</p>
+                    </div>
+                    <div class="footer-contact-item">
+                        <p class="footer-contact-label" data-i18n="footer.location_label">Locatie</p>
+                        <p class="footer-contact-value" data-i18n="footer.location_value">Europa & Benelux</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copy" data-i18n="footer.copyright">© 2026 Urban Interiors. Alle rechten voorbehouden.</p>
+                <p class="footer-credit" data-i18n-html="footer.made_by">Gemaakt door <a href="https://nebula-agency.be" target="_blank" rel="noopener noreferrer">nebula-agency.be</a></p>
+                <div class="footer-social">
+                    <a href="#" class="footer-social-link" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                    <a href="#" class="footer-social-link" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg>
+                    </a>
+                    <a href="#" class="footer-social-link" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="lang.js"></script>
+    <script>
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileNav = document.getElementById('mobile-nav');
+
+        menuBtn.addEventListener('click', () => {
+            menuBtn.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+        });
+
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                menuBtn.classList.remove('active');
+                mobileNav.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        const form = document.querySelector('form');
+        const langPages = { nl: '/bedankt', fr: '/merci', en: '/thankyou' };
+
+        // Handle form submission via Netlify Function + Resend
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            const lang = localStorage.getItem('ui-lang') || 'nl';
+            const loadingText = { nl: 'Versturen...', fr: 'Envoi...', en: 'Sending...' };
+            const errorText = { nl: 'Er ging iets mis. Probeer het opnieuw.', fr: 'Une erreur est survenue. Veuillez réessayer.', en: 'Something went wrong. Please try again.' };
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = loadingText[lang] || loadingText.nl;
+
+            try {
+                const response = await fetch('/.netlify/functions/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: form.name.value,
+                        email: form.email.value,
+                        phone: form.phone.value,
+                        message: form.message.value,
+                        lang: lang
+                    })
+                });
+
+                if (!response.ok) throw new Error('Failed');
+
+                window.location.href = langPages[lang] || langPages.nl;
+            } catch (err) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+                alert(errorText[lang] || errorText.nl);
+            }
+        });
+    </script>
+</body>
+
+</html>

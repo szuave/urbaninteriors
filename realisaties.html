@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-572DHWHZ');</script>
+    <!-- End Google Tag Manager -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bekijk de realisaties van Urban Interiors. Portfolio met interieur- en renovatieprojecten in België.">
+    <title>Realisaties | Urban Interiors</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Gallery Styles */
+        .filter-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 48px;
+            justify-content: center;
+        }
+
+        .filter-tab {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid var(--black-border);
+            border-radius: var(--radius-md);
+            color: var(--gray);
+            font-family: var(--font-body);
+            font-size: 13px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-tab:hover {
+            border-color: var(--gray-darker);
+            color: var(--white);
+        }
+
+        .filter-tab.active {
+            background: var(--white);
+            border-color: var(--white);
+            color: var(--black);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 1024px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .gallery-item {
+                aspect-ratio: 4/3;
+            }
+
+            .gallery-item-overlay {
+                opacity: 1;
+                transform: translateY(0);
+                padding: 16px;
+            }
+
+            .gallery-item-title {
+                font-size: 16px;
+            }
+        }
+
+        /* Filter tabs mobile */
+        @media (max-width: 480px) {
+            .filter-tabs {
+                gap: 8px;
+                margin-bottom: 32px;
+            }
+
+            .filter-tab {
+                padding: 10px 14px;
+                font-size: 11px;
+            }
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 4/3;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 1;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            border-radius: var(--radius-md);
+        }
+
+        .gallery-item.hidden {
+            display: none;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.5s ease, transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+
+        .gallery-item-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 24px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-item-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gallery-item-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            color: var(--white);
+            margin-bottom: 4px;
+        }
+
+        .gallery-item-category {
+            font-size: 12px;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        .lightbox-content img {
+            max-width: 90vw;
+            max-height: 85vh;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border: 1px solid var(--black-border);
+            border-radius: var(--radius-md);
+            color: var(--white);
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10001;
+        }
+
+        .lightbox-close:hover {
+            background: var(--white);
+            color: var(--black);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border: 1px solid var(--black-border);
+            border-radius: var(--radius-md);
+            color: var(--white);
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-nav:hover {
+            background: var(--white);
+            color: var(--black);
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+
+        .lightbox-info {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: var(--white);
+        }
+
+        .lightbox-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .lightbox-counter {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        /* Lightbox mobile */
+        @media (max-width: 768px) {
+            .lightbox-close {
+                top: 10px;
+                right: 10px;
+                width: 44px;
+                height: 44px;
+            }
+
+            .lightbox-nav {
+                width: 44px;
+                height: 44px;
+            }
+
+            .lightbox-prev {
+                left: 10px;
+            }
+
+            .lightbox-next {
+                right: 10px;
+            }
+
+            .lightbox-info {
+                bottom: 10px;
+                width: 90%;
+            }
+
+            .lightbox-title {
+                font-size: 16px;
+            }
+
+            .lightbox-content img {
+                max-width: 95vw;
+                max-height: 75vh;
+            }
+        }
+
+        /* Project Section */
+        .project-section {
+            margin-top: 120px;
+            padding-top: 80px;
+            border-top: 1px solid var(--black-border);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 48px;
+        }
+
+        .project-header h2 {
+            font-size: clamp(32px, 4vw, 48px);
+        }
+
+        .project-count {
+            font-size: 14px;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-572DHWHZ"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo">Urban Interiors</a>
+                <nav class="nav">
+                    <a href="diensten.html" class="nav-link" data-i18n="nav.diensten">Diensten</a>
+                    <a href="werkwijze.html" class="nav-link" data-i18n="nav.werkwijze">Werkwijze</a>
+                    <a href="realisaties.html" class="nav-link active" data-i18n="nav.realisaties">Realisaties</a>
+                    <a href="over.html" class="nav-link" data-i18n="nav.over">Over</a>
+                </nav>
+                <a href="contact.html" class="btn btn-secondary header-cta" data-i18n="nav.contact">Contact</a>
+                <div class="lang-switcher">
+                    <button class="lang-option" data-lang="nl">NL</button>
+                    <button class="lang-option" data-lang="fr">FR</button>
+                    <button class="lang-option" data-lang="en">EN</button>
+                </div>
+                <button class="menu-btn" id="menu-btn" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav" id="mobile-nav">
+        <div class="mobile-nav-links">
+            <a href="diensten.html" class="mobile-nav-link" data-i18n="nav.diensten">Diensten</a>
+            <a href="werkwijze.html" class="mobile-nav-link" data-i18n="nav.werkwijze">Werkwijze</a>
+            <a href="realisaties.html" class="mobile-nav-link" data-i18n="nav.realisaties">Realisaties</a>
+            <a href="over.html" class="mobile-nav-link" data-i18n="nav.over">Over</a>
+        </div>
+        <a href="contact.html" class="btn btn-primary mobile-nav-cta" data-i18n="nav.contact">Contact</a>
+        <div class="mobile-lang-switcher">
+            <button class="lang-option" data-lang="nl">NL</button>
+            <button class="lang-option" data-lang="fr">FR</button>
+            <button class="lang-option" data-lang="en">EN</button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content">
+                <span class="text-mono mb-md" style="display:block;" data-i18n="realisaties.header.label">Portfolio</span>
+                <h1 data-i18n="realisaties.header.title">Realisaties</h1>
+                <p class="text-large" data-i18n="realisaties.header.subtitle">Een selectie van afgeronde projecten. Verschillende woningen, verschillende stijlen. Eén constante: aandacht voor afwerking.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="section">
+        <div class="container">
+            <!-- Filter Tabs -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all" data-i18n="realisaties.filter.all">Alles</button>
+                <button class="filter-tab" data-filter="keukens" data-i18n="realisaties.filter.keukens">Keukens</button>
+                <button class="filter-tab" data-filter="badkamers" data-i18n="realisaties.filter.badkamers">Badkamers</button>
+                <button class="filter-tab" data-filter="maatkasten" data-i18n="realisaties.filter.maatkasten">Maatkasten</button>
+                <button class="filter-tab" data-filter="woonkamer" data-i18n="realisaties.filter.woonkamer">Woonkamer</button>
+                <button class="filter-tab" data-filter="commercieel" data-i18n="realisaties.filter.commercieel">Commercieel</button>
+                <button class="filter-tab" data-filter="buitenwerk" data-i18n="realisaties.filter.buitenwerk">Buitenwerk</button>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="gallery-grid" id="gallery">
+                <!-- Keukens -->
+                <div class="gallery-item" data-category="keukens" data-project="keuken-modern-1">
+                    <picture><source srcset="Photos/ddd.webp" type="image/webp"><img src="Photos/ddd.jpeg" alt="Moderne keuken met eiland"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Moderne Keuken</h3>
+                        <span class="gallery-item-category">Keukens</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="keukens" data-project="keuken-modern-2">
+                    <picture><source srcset="Photos/gfh.webp" type="image/webp"><img src="Photos/gfh.jpeg" alt="Moderne keuken" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Strakke Keuken</h3>
+                        <span class="gallery-item-category">Keukens</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="keukens" data-project="keuken-modern-3">
+                    <picture><source srcset="Photos/hfg.webp" type="image/webp"><img src="Photos/hfg.jpeg" alt="Moderne keuken" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Design Keuken</h3>
+                        <span class="gallery-item-category">Keukens</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="keukens" data-project="keuken-zwart">
+                    <picture><source srcset="Photos/WhatsApp%20Image%202026-01-26%20at%2020.21.28.webp" type="image/webp"><img src="Photos/WhatsApp Image 2026-01-26 at 20.21.28.jpeg" alt="Zwarte keuken met trap" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Zwarte Keuken</h3>
+                        <span class="gallery-item-category">Keukens</span>
+                    </div>
+                </div>
+
+                <!-- Badkamers -->
+                <div class="gallery-item" data-category="badkamers" data-project="badkamer-wit">
+                    <picture><source srcset="Photos/%C3%A9dqd.webp" type="image/webp"><img src="Photos/édqd.jpeg" alt="Witte moderne badkamer" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Moderne Badkamer</h3>
+                        <span class="gallery-item-category">Badkamers</span>
+                    </div>
+                </div>
+
+                <!-- Maatkasten -->
+                <div class="gallery-item" data-category="maatkasten" data-project="maatkast-multiplex">
+                    <picture><source srcset="Photos/2.webp" type="image/webp"><img src="Photos/2.jpeg" alt="Maatkast in multiplex" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Multiplex Maatkast</h3>
+                        <span class="gallery-item-category">Maatkasten</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="maatkasten" data-project="maatkast-multiplex">
+                    <picture><source srcset="Photos/3.webp" type="image/webp"><img src="Photos/3.jpeg" alt="Maatkast in multiplex detail" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Multiplex Maatkast</h3>
+                        <span class="gallery-item-category">Maatkasten</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="maatkasten" data-project="maatkast-zolder">
+                    <picture><source srcset="Photos/fgh.webp" type="image/webp"><img src="Photos/fgh.jpeg" alt="Witte zolderkast" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Zolder Maatkast</h3>
+                        <span class="gallery-item-category">Maatkasten</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="commercieel" data-project="bar-inrichting">
+                    <picture><source srcset="Photos/hfgh.webp" type="image/webp"><img src="Photos/hfgh.jpeg" alt="Bar inrichting" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Bar</h3>
+                        <span class="gallery-item-category">Commercieel</span>
+                    </div>
+                </div>
+
+                <!-- Woonkamer -->
+                <div class="gallery-item" data-category="woonkamer" data-project="woonkamer-1">
+                    <picture><source srcset="Photos/htfgh.webp" type="image/webp"><img src="Photos/htfgh.jpeg" alt="Woonkamer met zwarte kasten" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Woonkamer Inrichting</h3>
+                        <span class="gallery-item-category">Woonkamer</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="woonkamer" data-project="mancave">
+                    <picture><source srcset="Photos/th.webp" type="image/webp"><img src="Photos/th.jpeg" alt="Mancave met biljart" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Mancave</h3>
+                        <span class="gallery-item-category">Woonkamer</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="woonkamer" data-project="mancave">
+                    <picture><source srcset="Photos/yjt.webp" type="image/webp"><img src="Photos/yjt.jpeg" alt="Mancave detail" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Mancave</h3>
+                        <span class="gallery-item-category">Woonkamer</span>
+                    </div>
+                </div>
+
+                <!-- Commercieel -->
+                <div class="gallery-item" data-category="commercieel" data-project="bar">
+                    <picture><source srcset="Photos/1.webp" type="image/webp"><img src="Photos/1.jpeg" alt="Bar restaurant" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Bar & Restaurant</h3>
+                        <span class="gallery-item-category">Commercieel</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="commercieel" data-project="receptie">
+                    <picture><source srcset="Photos/5.webp" type="image/webp"><img src="Photos/5.jpeg" alt="Receptie balie" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Receptie</h3>
+                        <span class="gallery-item-category">Commercieel</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="commercieel" data-project="kapsalon">
+                    <picture><source srcset="Photos/efg.webp" type="image/webp"><img src="Photos/efg.jpeg" alt="Kapsalon interieur" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Kapsalon</h3>
+                        <span class="gallery-item-category">Commercieel</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="commercieel" data-project="bank">
+                    <picture><source srcset="Photos/jky.webp" type="image/webp"><img src="Photos/jky.jpeg" alt="Bank kantoor" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Bankkantoor</h3>
+                        <span class="gallery-item-category">Commercieel</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="commercieel" data-project="kantoor">
+                    <picture><source srcset="Photos/jyt.webp" type="image/webp"><img src="Photos/jyt.jpeg" alt="Kantoor met gewelf" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Kantoor</h3>
+                        <span class="gallery-item-category">Commercieel</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="commercieel" data-project="retail">
+                    <picture><source srcset="Photos/hth.webp" type="image/webp"><img src="Photos/hth.jpeg" alt="Retail ruimte" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Retail</h3>
+                        <span class="gallery-item-category">Commercieel</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="commercieel" data-project="retail">
+                    <picture><source srcset="Photos/jf.webp" type="image/webp"><img src="Photos/jf.jpeg" alt="Retail detail" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Retail</h3>
+                        <span class="gallery-item-category">Commercieel</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="commercieel" data-project="render">
+                    <picture><source srcset="Photos/kkyt.webp" type="image/webp"><img src="Photos/kkyt.jpeg" alt="3D ontwerp" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">3D Ontwerp</h3>
+                        <span class="gallery-item-category">Commercieel</span>
+                    </div>
+                </div>
+
+                <!-- Buitenwerk -->
+                <div class="gallery-item" data-category="buitenwerk" data-project="metaal-structuur">
+                    <picture><source srcset="Photos/6.webp" type="image/webp"><img src="Photos/6.jpeg" alt="Metalen buitenstructuur" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Metalen Overkapping</h3>
+                        <span class="gallery-item-category">Buitenwerk</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="buitenwerk" data-project="metaal-structuur">
+                    <picture><source srcset="Photos/d.webp" type="image/webp"><img src="Photos/d.jpeg" alt="Metalen buitenstructuur detail" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Metalen Overkapping</h3>
+                        <span class="gallery-item-category">Buitenwerk</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="buitenwerk" data-project="metaal-structuur">
+                    <picture><source srcset="Photos/dd.webp" type="image/webp"><img src="Photos/dd.jpeg" alt="Metalen buitenstructuur overzicht" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Metalen Overkapping</h3>
+                        <span class="gallery-item-category">Buitenwerk</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="buitenwerk" data-project="terras">
+                    <picture><source srcset="Photos/qzdqzd.webp" type="image/webp"><img src="Photos/qzdqzd.jpeg" alt="Terras met vlonder" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Terras & Vlonder</h3>
+                        <span class="gallery-item-category">Buitenwerk</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="buitenwerk" data-project="binnenplaats">
+                    <picture><source srcset="Photos/dsfs.webp" type="image/webp"><img src="Photos/dsfs.jpeg" alt="Binnenplaats tuin" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Binnenplaats</h3>
+                        <span class="gallery-item-category">Buitenwerk</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="buitenwerk" data-project="historisch">
+                    <picture><source srcset="Photos/rfz.webp" type="image/webp"><img src="Photos/rfz.jpeg" alt="Historische binnenplaats" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Historische Renovatie</h3>
+                        <span class="gallery-item-category">Buitenwerk</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="buitenwerk" data-project="historisch">
+                    <picture><source srcset="Photos/sdf.webp" type="image/webp"><img src="Photos/sdf.jpeg" alt="Historische binnenplaats detail" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Historische Renovatie</h3>
+                        <span class="gallery-item-category">Buitenwerk</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="buitenwerk" data-project="historisch">
+                    <picture><source srcset="Photos/tf.webp" type="image/webp"><img src="Photos/tf.jpeg" alt="Historische binnenplaats overzicht" loading="lazy"></picture>
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">Historische Renovatie</h3>
+                        <span class="gallery-item-category">Buitenwerk</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-value">450+</span>
+                    <span class="stat-label" data-i18n="realisaties.stat.projects">Projecten voltooid</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">25</span>
+                    <span class="stat-label" data-i18n="realisaties.stat.years">Jaar ervaring</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">100%</span>
+                    <span class="stat-label" data-i18n="realisaties.stat.clients">Tevreden klanten</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">EU</span>
+                    <span class="stat-label" data-i18n="realisaties.stat.region">Europa & Benelux</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section - Floating over footer -->
+    <section class="section cta-section cta-floating">
+        <div class="container">
+            <div class="cta-inner">
+                <h2 class="cta-title" data-i18n="realisaties.cta.title">Jouw project in deze lijst?</h2>
+                <p class="cta-text" data-i18n="realisaties.cta.text">Vertel ons waar je aan denkt. We bespreken vrijblijvend de mogelijkheden.</p>
+                <div class="btn-group" style="justify-content:center;">
+                    <a href="contact.html" class="btn btn-primary" data-i18n="realisaties.cta.btn1">Neem contact op</a>
+                    <a href="diensten.html" class="btn btn-secondary" data-i18n="realisaties.cta.btn2">Onze diensten</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer footer-with-cta">
+        <div class="container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <span class="footer-logo">Urban Interiors</span>
+                    <p class="footer-tagline" data-i18n="footer.tagline">Stijlvolle interieurs op maat, tot in detail. Van ontwerp tot uitvoering met aandacht voor kwaliteit en afwerking.</p>
+                </div>
+                <div class="footer-column">
+                    <h4 data-i18n="footer.nav_title">Navigatie</h4>
+                    <nav class="footer-nav">
+                        <a href="diensten.html" class="footer-link" data-i18n="footer.diensten">Diensten</a>
+                        <a href="werkwijze.html" class="footer-link" data-i18n="footer.werkwijze">Werkwijze</a>
+                        <a href="realisaties.html" class="footer-link" data-i18n="footer.realisaties">Realisaties</a>
+                        <a href="over.html" class="footer-link" data-i18n="footer.over">Over ons</a>
+                        <a href="contact.html" class="footer-link" data-i18n="footer.contact">Contact</a>
+                    </nav>
+                </div>
+                <div class="footer-column">
+                    <h4 data-i18n="footer.contact_title">Contact</h4>
+                    <div class="footer-contact-item">
+                        <p class="footer-contact-label" data-i18n="footer.phone_label">Telefoon</p>
+                        <p class="footer-contact-value"><a href="tel:+32469484144">+32 469 484 144</a></p>
+                    </div>
+                    <div class="footer-contact-item">
+                        <p class="footer-contact-label" data-i18n="footer.email_label">E-mail</p>
+                        <p class="footer-contact-value"><a href="mailto:contact@urbaninteriors.be">contact@urbaninteriors.be</a></p>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4 data-i18n="footer.hours_title">Openingsuren</h4>
+                    <div class="footer-contact-item">
+                        <p class="footer-contact-label" data-i18n="footer.weekdays">Maandag - Vrijdag</p>
+                        <p class="footer-contact-value" data-i18n="footer.weekdays_value">9:00 – 16:00</p>
+                    </div>
+                    <div class="footer-contact-item">
+                        <p class="footer-contact-label" data-i18n="footer.weekend">Weekend</p>
+                        <p class="footer-contact-value" data-i18n="footer.weekend_value">Op afspraak</p>
+                    </div>
+                    <div class="footer-contact-item">
+                        <p class="footer-contact-label" data-i18n="footer.location_label">Locatie</p>
+                        <p class="footer-contact-value" data-i18n="footer.location_value">Europa & Benelux</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copy" data-i18n="footer.copyright">© 2026 Urban Interiors. Alle rechten voorbehouden.</p>
+                <p class="footer-credit" data-i18n-html="footer.made_by">Gemaakt door <a href="https://nebula-agency.be" target="_blank" rel="noopener noreferrer">nebula-agency.be</a></p>
+                <div class="footer-social">
+                    <a href="#" class="footer-social-link" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                    <a href="#" class="footer-social-link" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg>
+                    </a>
+                    <a href="#" class="footer-social-link" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightbox-close">×</button>
+        <button class="lightbox-nav lightbox-prev" id="lightbox-prev">‹</button>
+        <button class="lightbox-nav lightbox-next" id="lightbox-next">›</button>
+        <div class="lightbox-content">
+            <img src="" alt="" id="lightbox-img">
+        </div>
+        <div class="lightbox-info">
+            <h3 class="lightbox-title" id="lightbox-title"></h3>
+            <span class="lightbox-counter" id="lightbox-counter"></span>
+        </div>
+    </div>
+
+    <script src="lang.js"></script>
+    <script>
+        // Header scroll effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileNav = document.getElementById('mobile-nav');
+
+        menuBtn.addEventListener('click', () => {
+            menuBtn.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+        });
+
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                menuBtn.classList.remove('active');
+                mobileNav.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Filter functionality
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update active tab
+                filterTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                const filter = tab.dataset.filter;
+
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // Lightbox functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxTitle = document.getElementById('lightbox-title');
+        const lightboxCounter = document.getElementById('lightbox-counter');
+        const lightboxClose = document.getElementById('lightbox-close');
+        const lightboxPrev = document.getElementById('lightbox-prev');
+        const lightboxNext = document.getElementById('lightbox-next');
+
+        let currentIndex = 0;
+        let visibleItems = [];
+
+        function updateVisibleItems() {
+            visibleItems = Array.from(galleryItems).filter(item => !item.classList.contains('hidden'));
+        }
+
+        function openLightbox(index) {
+            updateVisibleItems();
+            currentIndex = index;
+            updateLightboxContent();
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function updateLightboxContent() {
+            const item = visibleItems[currentIndex];
+            const img = item.querySelector('img');
+            const title = item.querySelector('.gallery-item-title').textContent;
+
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+            lightboxTitle.textContent = title;
+            lightboxCounter.textContent = `${currentIndex + 1} / ${visibleItems.length}`;
+        }
+
+        function navigateLightbox(direction) {
+            currentIndex += direction;
+            if (currentIndex < 0) currentIndex = visibleItems.length - 1;
+            if (currentIndex >= visibleItems.length) currentIndex = 0;
+            updateLightboxContent();
+        }
+
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                updateVisibleItems();
+                const visibleIndex = visibleItems.indexOf(item);
+                openLightbox(visibleIndex);
+            });
+        });
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightboxPrev.addEventListener('click', () => navigateLightbox(-1));
+        lightboxNext.addEventListener('click', () => navigateLightbox(1));
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') navigateLightbox(-1);
+            if (e.key === 'ArrowRight') navigateLightbox(1);
+        });
+
+        // Touch swipe support for lightbox
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        lightbox.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        lightbox.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    // Swipe left - next image
+                    navigateLightbox(1);
+                } else {
+                    // Swipe right - previous image
+                    navigateLightbox(-1);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

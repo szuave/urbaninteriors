@@ -1,0 +1,20 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+
+# Logs
+*.log
+.claude/
+
+# Local Netlify folder
+.netlify
+
+# Dependencies (build-only, niet deployen)
+node_modules/
+
+# Lokaal deploy-mapje (kopie voor handmatige upload)
+cloudflare-deploy/

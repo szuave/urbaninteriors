@@ -230,7 +230,7 @@
         const form = document.querySelector('form');
         const langPages = { nl: '/bedankt', fr: '/merci', en: '/thankyou' };
 
-        // Handle form submission via Netlify Function + Resend
+        // Handle form submission via Cloudflare Worker + Resend
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = form.querySelector('button[type="submit"]');
@@ -243,7 +243,7 @@
             submitBtn.textContent = loadingText[lang] || loadingText.nl;
 
             try {
-                const response = await fetch('/.netlify/functions/contact', {
+                const response = await fetch('/api/contact', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
